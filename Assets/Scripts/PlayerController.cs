@@ -8,21 +8,18 @@ public class PlayerController : MonoBehaviour
     private Rigidbody fizik;
     private Vector3 velocity=Vector3.zero;
 
-
     [SerializeField]
-    private int speed = 10;
-
-    [SerializeField]
-    private int lookSensitivity=5;
+    private int speed = 8, lookSensitivity = 5;
 
     public Camera cam;
 
     public static int HEALTH;
 
+    private const float verticalConstDown = -8f;
+    private const float verticalConstUp = 11f;
+    private float currentLocation=0;
 
-    private const float verticalConstDown = 60f;
-    private const float verticalConstUp = 270f;
-
+    
     void Start()
     {
         HEALTH = 100;
@@ -39,9 +36,11 @@ public class PlayerController : MonoBehaviour
             GameOver();
         }
 
+        
         BodyMovement();
         HeadMovementHorizontal();
         HeadMovementVertical();
+        SpeedControl();//sprint or not
 
         UI.HealthChanged(HEALTH);
     }
@@ -70,23 +69,39 @@ public class PlayerController : MonoBehaviour
     void HeadMovementVertical()
     {
         float verticalCamera = Input.GetAxisRaw("Mouse Y");
-        Vector3 rotation = new Vector3(verticalCamera, 0, 0)*lookSensitivity;
-        cam.transform.Rotate(-rotation, Space.Self);
-        /*
-        Debug.Log(cam.transform.localRotation.eulerAngles);
-        
+        currentLocation = Mathf.Clamp(currentLocation + verticalCamera, verticalConstDown, verticalConstUp);
+        Vector3 rotation = new Vector3(verticalCamera, 0, 0) * lookSensitivity;
 
-        //for to prevent 360 degree vertical movement
-        if (cam.transform.localRotation.eulerAngles.x<verticalConstDown)
-        {          
-            cam.transform.Rotate(-rotation, Space.Self);
+        if (currentLocation==verticalConstDown)//lower limit
+        {
+            if(verticalCamera>0)//input can not be negative at the lower limit
+            {
+                cam.transform.Rotate(-rotation, Space.Self);
+            }            
         }
-        if (cam.transform.localRotation.eulerAngles.x > verticalConstUp)
+        else if(currentLocation==verticalConstUp)//upper limit
+        {
+            if(verticalCamera<0)//input can not be positive at the upper limit
+            {
+                cam.transform.Rotate(-rotation, Space.Self);
+            }
+        }        
+        else//between two consts
         {
             cam.transform.Rotate(-rotation, Space.Self);
         }
-        */
+    }
 
+    void SpeedControl()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))//sprint
+        {
+            speed = 15;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            speed = 8;
+        }
     }
 
     void GameOver()
@@ -100,8 +115,9 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "maxammo" && FireScript.ammo<100)
         {
             FireScript.ammo = 100;
+            GrenadeLauncher.ammo = 4;
             Destroy(other.gameObject);
-            UI.AmmoChanged();
+            UI.AmmoChanged(); UI.FragChanged();
         }
     }
 }

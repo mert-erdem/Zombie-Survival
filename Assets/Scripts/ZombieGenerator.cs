@@ -11,7 +11,6 @@ public class ZombieGenerator : MonoBehaviour
 
     private Vector3 newPosition;
 
-
     private int hordeSize;
     private int currentHordeSize;
     public static int aliveZombies;
@@ -34,7 +33,6 @@ public class ZombieGenerator : MonoBehaviour
                     Quaternion.Euler(zombie.transform.rotation.x, zombie.transform.rotation.y, zombie.transform.rotation.z));
 
                 currentHordeSize++;
-
 
                 delay += (3 - delayDecreaser);
             }

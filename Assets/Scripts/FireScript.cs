@@ -23,6 +23,10 @@ public class FireScript : MonoBehaviour
 
     public Text ammoText;
 
+
+
+
+
     private void Start()
     {
         delay = 0f;//a limit so that the player cannot fire the weapon repeatedly;
@@ -35,15 +39,14 @@ public class FireScript : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && delay<Time.timeSinceLevelLoad && ammo!=0)
         {
-            Shoot();
-            UI.AmmoChanged();//changing ammo ui
+            Shoot();           
             delay += 1f;
-        }      
+        }
     }
 
     public void Shoot()
     {
-        ammo--;
+        ammo--; UI.AmmoChanged();//changing ammo ui
 
         RaycastHit hit;
 
@@ -58,7 +61,7 @@ public class FireScript : MonoBehaviour
             
             hedef = hit.transform.gameObject;
             
-            if(hedef.tag=="zombie")//vurulan hedef zombi ise
+            if(hedef.tag=="zombie")//if the target is a zombie
             {
                 hedef.GetComponent<ZombieAI>().health -= damage;
                 impactS.Add(Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal)));//impact effect
@@ -71,6 +74,8 @@ public class FireScript : MonoBehaviour
             }
         }
     }
+
+    
 
     void ClearTheImpacts()
     {

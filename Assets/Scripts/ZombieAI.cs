@@ -25,7 +25,7 @@ public class ZombieAI : MonoBehaviour
         anim = this.transform.GetComponent<ZombieAnim>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(alive==true)
         {
@@ -68,7 +68,6 @@ public class ZombieAI : MonoBehaviour
     {
         if(health<=0)
         {
-
             anim.DeadAnim();
             StartCoroutine(Destroy());
         }
@@ -79,7 +78,7 @@ public class ZombieAI : MonoBehaviour
         alive = false;
         this.transform.GetComponent<Collider>().enabled = false;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
 
         ZombieGenerator.aliveZombies--;
         Destroy(gameObject);

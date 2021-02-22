@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    public Text ammoText; private static Text ammoTextStatic;
-    public Text levelText; private static Text levelTextStatic;
-    public Text healthText; private static Text healthTextStatic;
+    public Text ammoText, fragText, levelText, healthText;
+    private static Text ammoTextStatic, fragTextStatic, levelTextStatic, healthTextStatic;
 
 
     private void Start()
     {
         ammoTextStatic = ammoText;
+        fragTextStatic=fragText;
         levelTextStatic = levelText;
         healthTextStatic = healthText;
     }
@@ -20,6 +20,11 @@ public class UI : MonoBehaviour
     public static void AmmoChanged()
     {
         ammoTextStatic.GetComponent<Text>().text = "AMMO: " + FireScript.ammo.ToString();
+    }
+
+    public static void FragChanged()
+    {
+        fragTextStatic.GetComponent<Text>().text = "FRAGS: " + GrenadeLauncher.ammo.ToString();
     }
 
     public static void LevelChanged(int level)

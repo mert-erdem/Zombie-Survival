@@ -24,8 +24,7 @@ public class ZombieAnim : MonoBehaviour
     }
 
     public  void WalkAnim()
-    {
-        
+    {       
         anim.SetBool("attack", false);
     }
 
