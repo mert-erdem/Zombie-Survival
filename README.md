@@ -1,3 +1,12 @@
 # Zombie-Survival
-Zombie-Survival FPS game prototype that developed with Unity3D 2020.</br>
-![zombieGameSS](https://user-images.githubusercontent.com/47994087/107648796-c8346e80-6c8d-11eb-9e57-a327e108b452.png)
+Zombie-Survival FPS game prototype that developed with Unity3D.</br>
+
+## Weapons
+- Laser Gun
+- Grenade Launcher
+
+## Power-Ups
+- Max Ammo
+
+## Gameplay
+![FPS_GIF](https://user-images.githubusercontent.com/47994087/125103751-5863cc00-e0e5-11eb-83fa-868672ebbe7b.gif)
